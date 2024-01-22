@@ -5,7 +5,14 @@ thread_lock = _thread.allocate_lock()
 
 
 class Threading():
-  def __init__(self, target=None, *args, **kwargs) ->None:
+  def __init__(self, target, args: tuple= (), kwargs: dict= {}) ->None:
+    """This is Thread constructor.
+
+    Args:
+        target (func): function for thread to run.
+        args (tuple, optional): argument to pass to the function. Defaults to ().
+        kwargs (dict, optional): keyword argument to pass to the function. Defaults to {}.
+    """
     self.target: function = target
     self.args = args
     self.kwargs = kwargs
@@ -34,7 +41,7 @@ class Threading():
     else:
       return self._returnValue
   
-  def _getReturnVal(self):
+  def getReturnVal(self):
     """immediately return current value from the threading obj's internal "_return_value" value. 
     This function is intended to use alongside with "_push_return_val" function. 
     Race condition is already handle by it self.
@@ -45,7 +52,7 @@ class Threading():
     with thread_lock:
       return self._returnValue
 
-  def _pushReturnVal(self, val):
+  def pushReturnVal(self, val):
     """immediately set current value of the threading obj's internal "_return_value" to the argument value. 
     This function is intended to use alongside with "_get_return_val" function. 
     Note: This function is in intended to use as a replacement for "return" statement in side a loop. 
